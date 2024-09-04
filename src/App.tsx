@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-600 to-red-700 text-white font-sans">
       <header className="container mx-auto pb-8 pt-32">
-        <h1 className="text-6xl font-bold text-center mb-2 bg-gradient-to-r from-slate-300 via-slate-100 to-slate-300 bg-clip-text text-transparent">
+        <h1 className="tracking-tight text-6xl font-bold text-center mb-2 bg-gradient-to-r from-slate-300 via-slate-100 to-slate-300 bg-clip-text text-transparent">
           Concordia Directory
         </h1>
         <p className="text-xl text-center">Connecting Minds Across Campus</p>
