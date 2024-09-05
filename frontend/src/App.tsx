@@ -1,11 +1,21 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import Features from './components/Features'
+import { Card, Person } from './components/Card'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [people, setPeople] = useState<Person[]>([])
+
   const searchInputRef = useRef<HTMLInputElement>(null)
   const focusInput = () => searchInputRef.current?.focus()
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}`)
+      .then((response) => response.json())
+      .then((data) => setPeople(data))
+      .catch((error) => console.error(error))
+  }, [searchQuery])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-600 to-red-700 text-white font-sans">
@@ -29,7 +39,10 @@ function App() {
             />
             <MagnifyingGlassIcon className="absolute size-6 right-4 top-1/2 transform -translate-y-1/2" />
           </div>
-          <Features focusInput={focusInput} />
+          {people.map((person) => (
+            <Card key={person.id} {...person} />
+          ))}
+          {people.length == 0 && <Features focusInput={focusInput} />}
         </div>
       </main>
     </div>
