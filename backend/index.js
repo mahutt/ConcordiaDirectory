@@ -3,7 +3,7 @@ import cors from 'cors'
 import { queryDatabase } from './database/database.js'
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 
 app.use(cors())
 app.use(express.json())
