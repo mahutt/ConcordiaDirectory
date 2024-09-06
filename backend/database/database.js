@@ -1,23 +1,21 @@
-import pg from 'pg'
-import dotenv from 'dotenv'
-const { Pool } = pg
+import Database from 'better-sqlite3'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-dotenv.config()
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-})
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-export async function queryDatabase(query, params) {
-  const client = await pool.connect()
-  try {
-    const result = await client.query(query, params)
-    return result.rows
-  } finally {
-    client.release()
+const dbPath = path.join(__dirname, 'database.sqlite')
+export const db = new Database(dbPath)
+
+export function queryDatabase(query, params) {
+  const statement = db.prepare(query)
+  if (Array.isArray(params)) {
+    return statement.all(...params)
+  } else if (typeof params === 'object') {
+    return statement.all(params)
+  } else {
+    return statement.all()
   }
 }
 

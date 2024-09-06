@@ -16,10 +16,22 @@ app.get('/', async (req, res) => {
   }
   const query = `
     SELECT * FROM person
-    WHERE name ILIKE $1 OR title ILIKE $1 OR department ILIKE $1
-    `
-  const result = await queryDatabase(query, [`%${search}%`])
-  res.json(result)
+    WHERE name LIKE ? OR title LIKE ? OR department LIKE ?
+  `
+
+  try {
+    const result = queryDatabase(query, [
+      `%${search}%`,
+      `%${search}%`,
+      `%${search}%`,
+    ])
+    res.json(result)
+  } catch (error) {
+    console.error('Database query error:', error)
+    res
+      .status(500)
+      .json({ error: 'An error occurred while searching the database' })
+  }
 })
 
 app.listen(port, () => {
