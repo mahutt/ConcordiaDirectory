@@ -21,7 +21,7 @@ const Features: React.FC<FeaturesProps> = ({ focusInput }) => {
         onClick={focusInput}
         icon={<SparklesIcon className="w-12 h-12 text-purple-400" />}
         title="Advanced Search"
-        description="Find people by name, department, interests, or expertise."
+        description="Find people by name, department, and more."
       />
       <FeatureCard
         onClick={focusInput}
