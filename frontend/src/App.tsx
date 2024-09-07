@@ -5,17 +5,49 @@ import { Card, Person } from './components/Card'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [page, setPage] = useState(0)
   const [people, setPeople] = useState<Person[]>([])
 
   const searchInputRef = useRef<HTMLInputElement>(null)
   const focusInput = () => searchInputRef.current?.focus()
 
+  const mainRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}`)
+    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}&page=1`)
       .then((response) => response.json())
       .then((data) => setPeople(data))
+      .then(() => setPage(1))
       .catch((error) => console.error(error))
   }, [searchQuery])
+
+  useEffect(() => {
+    if (page < 2) return
+    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}&page=${page}`)
+      .then((response) => response.json())
+      .then((data) => setPeople((prev) => [...prev, ...data]))
+      .catch((error) => console.error(error))
+  }, [page])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mainRef.current) {
+        const rect = mainRef.current.getBoundingClientRect()
+        const windowHeight =
+          window.innerHeight || document.documentElement.clientHeight
+        const isNearBottom = rect.bottom - windowHeight < 100
+        if (isNearBottom) {
+          window.removeEventListener('scroll', handleScroll)
+          setPage((prev) => prev + 1)
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [people, searchQuery])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-600 to-red-700 text-white font-sans px-4 flex flex-col">
@@ -26,7 +58,7 @@ function App() {
         <p className="text-xl text-center">Connecting Minds Across Campus</p>
       </header>
 
-      <main className="container mx-auto mt-12 flex-1">
+      <main className="container mx-auto mt-12 flex-1" ref={mainRef}>
         <div className="max-w-3xl mx-auto">
           <div className="relative">
             <input

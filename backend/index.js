@@ -14,17 +14,21 @@ app.get('/api', async (req, res) => {
     res.json([])
     return
   }
+
+  const page = req.query.page || null
+
   const query = `
     SELECT * FROM person
     WHERE name LIKE ? OR title LIKE ? OR department LIKE ?
+    ${page ? 'LIMIT 10 OFFSET ?' : ''}
   `
 
   try {
-    const result = queryDatabase(query, [
-      `%${search}%`,
-      `%${search}%`,
-      `%${search}%`,
-    ])
+    let params = [`%${search}%`, `%${search}%`, `%${search}%`]
+    if (page) {
+      params.push((page - 1) * 10)
+    }
+    const result = queryDatabase(query, params)
     res.json(result)
   } catch (error) {
     console.error('Database query error:', error)
