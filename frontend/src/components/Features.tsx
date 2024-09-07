@@ -15,7 +15,7 @@ const Features: React.FC<FeaturesProps> = ({ focusInput }) => {
         onClick={focusInput}
         icon={<UserIcon className="w-12 h-12 text-cyan-500" />}
         title="Comprehensive Directory"
-        description="Access faculty information fast."
+        description="Access all faculty information in one place."
       />
       <FeatureCard
         onClick={focusInput}
