@@ -8,7 +8,10 @@ function App() {
   const [page, setPage] = useState(0)
   const [people, setPeople] = useState<Person[]>([])
 
+  const [headerHeight, setHeaderHeight] = useState('auto')
+  const [focused, setFocused] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const headerContentRef = useRef<HTMLInputElement>(null)
   const focusInput = () => searchInputRef.current?.focus()
 
   const mainRef = useRef<HTMLDivElement>(null)
@@ -49,10 +52,31 @@ function App() {
     }
   }, [people, searchQuery])
 
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerContentRef.current) {
+        const height = headerContentRef.current.offsetHeight
+        setHeaderHeight(`${height}px`)
+      }
+    }
+
+    updateHeaderHeight()
+    window.addEventListener('resize', updateHeaderHeight)
+
+    return () => window.removeEventListener('resize', updateHeaderHeight)
+  }, [])
+
   return (
     <div className="min-h-screen text-white font-sans flex flex-col">
-      <header className="bg-gradient-to-b from-orange-600 to-red-700">
-        <div className="container mx-auto pb-8 pt-32">
+      <header
+        className="bg-gradient-to-b from-orange-600 to-red-700"
+        style={{
+          height: focused ? '0' : headerHeight,
+          overflow: 'hidden',
+          transition: 'height 0.3s ease-in-out',
+        }}
+      >
+        <div ref={headerContentRef} className="container mx-auto pb-8 pt-32">
           <h1 className="tracking-tight text-5xl font-bold text-center mb-2 pb-2 bg-gradient-to-r from-slate-300 via-slate-100 to-slate-300 bg-clip-text text-transparent">
             Concordia Directory
           </h1>
@@ -60,9 +84,9 @@ function App() {
         </div>
       </header>
       <main className="flex-1 bg-red-700" ref={mainRef}>
-        <div className="container mx-auto mt-12 ">
+        <div className="container mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="relative">
+            <div className="sticky top-0 z-50 py-5 relative">
               <input
                 ref={searchInputRef}
                 type="text"
@@ -70,13 +94,25 @@ function App() {
                 className="w-full py-4 px-6 rounded-full bg-white/10 backdrop-blur-md text-white placeholder-slate-200 focus:outline-none focus:ring-2 focus:ring-red-400"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
               />
               <MagnifyingGlassIcon className="absolute size-6 right-4 top-1/2 transform -translate-y-1/2" />
             </div>
             {people.map((person) => (
               <Card key={person.id} {...person} />
             ))}
-            {people.length == 0 && <Features focusInput={focusInput} />}
+            {people.length == 0 && (
+              <div
+                className={`transition-all duration-300 ease-in-out ${
+                  focused
+                    ? 'opacity-0 invisible pointer-events-none'
+                    : 'opacity-100 visible pointer-events-auto'
+                }`}
+              >
+                <Features focusInput={focusInput} />
+              </div>
+            )}
           </div>
         </div>
       </main>

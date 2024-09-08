@@ -10,7 +10,7 @@ interface FeaturesProps {
 
 const Features: React.FC<FeaturesProps> = ({ focusInput }) => {
   return (
-    <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-8">
       <FeatureCard
         onClick={focusInput}
         icon={<UserIcon className="w-12 h-12 text-cyan-500" />}
@@ -48,7 +48,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 }) => (
   <div
     onClick={onClick}
-    className="bg-white/5 backdrop-blur-lg rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:scale-105 cursor-pointer"
+    className="bg-white/5 backdrop-blur-lg rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:scale-105 cursor-pointer select-none"
   >
     <div className="mb-4">{icon}</div>
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
