@@ -48,7 +48,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 }) => (
   <div
     onClick={onClick}
-    className="bg-white/5 backdrop-blur-lg rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:scale-105"
+    className="bg-white/5 backdrop-blur-lg rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:scale-105 cursor-pointer"
   >
     <div className="mb-4">{icon}</div>
     <h3 className="text-xl font-semibold mb-2">{title}</h3>
