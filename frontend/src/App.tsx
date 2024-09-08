@@ -56,7 +56,7 @@ function App() {
           <h1 className="tracking-tight text-5xl font-bold text-center mb-2 pb-2 bg-gradient-to-r from-slate-300 via-slate-100 to-slate-300 bg-clip-text text-transparent">
             Concordia Directory
           </h1>
-          <p className="text-xl text-center">Connecting Minds Across Campus</p>
+          <p className="text-xl text-center">Faculty Search Engine</p>
         </div>
       </header>
       <main className="flex-1 bg-red-700" ref={mainRef}>
