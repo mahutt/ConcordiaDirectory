@@ -67,7 +67,7 @@ function App() {
   }, [])
 
   return (
-    <div className="min-h-screen text-white font-sans flex flex-col">
+    <div className="text-white font-sans flex flex-col">
       <header
         className="bg-gradient-to-b from-orange-600 to-red-700"
         style={{
