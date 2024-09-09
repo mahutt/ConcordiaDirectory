@@ -2,9 +2,10 @@ import { useState, useRef, useEffect } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import Features from './components/Features'
 import { Card, Person } from './components/Card'
+import useQueryParam from './hooks/useQueryParam'
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useQueryParam('query', '')
   const [offset, setOffset] = useState(0)
   const [people, setPeople] = useState<Person[]>([])
 
