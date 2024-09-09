@@ -2,6 +2,8 @@
 
 Search for faculty accross several fields at once, and receive instant results. Try it at [conudir.com](https://conudir.com/)
 
+https://github.com/user-attachments/assets/fcdba45b-12ad-47b7-b7e1-7a6ad1f5ea72
+
 Each query is compared against the name, title, department, email, phone number, and office of each faculty member.
 The data is a direct copy of the records that can be fetched using [Concordia's own people search engine](https://www.concordia.ca/directories.html).
 
@@ -18,7 +20,7 @@ If you wish to report a bug, or if you have suggestions for further improvements
 This project is a [React](https://react.dev) SPA built with [Vite](https://vitejs.dev) that makes API requests to an [Express](https://expressjs.com) backend.
 
 The API is publicly available at `https://conudir.com/api/search`. Feel free to incorporate it into your own projects.
-Here is a some quick documentation on using querying for faculty via the Concordia Directory API:
+Here is a some quick documentation on querying for faculty via the Concordia Directory API:
 
 - Search for faculty by some `query` / keyword by including it as a URL query parameter: `https://conudir.com/api/search?query=aiman`
 - Limit the number of results by adding a `limit` query parameter: `https://conudir.com/api/search?query=hanna&limit=5`
