@@ -5,7 +5,7 @@ import { Card, Person } from './components/Card'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [page, setPage] = useState(0)
+  const [offset, setOffset] = useState(0)
   const [people, setPeople] = useState<Person[]>([])
 
   const [headerHeight, setHeaderHeight] = useState('auto')
@@ -17,20 +17,32 @@ function App() {
   const mainRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}&page=1`)
+    if (searchQuery.length === 0) {
+      setPeople([])
+      return
+    }
+    fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/search?query=${searchQuery}&limit=10&offset=0`
+    )
       .then((response) => response.json())
       .then((data) => setPeople(data))
-      .then(() => setPage(1))
+      .then(() => setOffset(10))
       .catch((error) => console.error(error))
   }, [searchQuery])
 
   useEffect(() => {
-    if (page < 2) return
-    fetch(`${import.meta.env.VITE_API_URL}/?search=${searchQuery}&page=${page}`)
+    if (offset < 1) return
+    fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/search?query=${searchQuery}&limit=10&offset=${offset}`
+    )
       .then((response) => response.json())
       .then((data) => setPeople((prev) => [...prev, ...data]))
       .catch((error) => console.error(error))
-  }, [page])
+  }, [offset])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,7 +53,7 @@ function App() {
         const isNearBottom = rect.bottom - windowHeight < 100
         if (isNearBottom) {
           window.removeEventListener('scroll', handleScroll)
-          setPage((prev) => prev + 1)
+          setOffset((prev) => prev + 10)
         }
       }
     }
