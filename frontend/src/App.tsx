@@ -10,6 +10,7 @@ function App() {
 
   const [headerHeight, setHeaderHeight] = useState('auto')
   const [focused, setFocused] = useState(false)
+  const [queryExhausted, setQueryExhausted] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const headerContentRef = useRef<HTMLInputElement>(null)
   const focusInput = () => searchInputRef.current?.focus()
@@ -21,6 +22,7 @@ function App() {
       setPeople([])
       return
     }
+    setQueryExhausted(false)
     fetch(
       `${
         import.meta.env.VITE_API_URL
@@ -33,14 +35,20 @@ function App() {
   }, [searchQuery])
 
   useEffect(() => {
-    if (offset < 1) return
+    if (offset < 1 || queryExhausted) return
     fetch(
       `${
         import.meta.env.VITE_API_URL
       }/search?query=${searchQuery}&limit=10&offset=${offset}`
     )
       .then((response) => response.json())
-      .then((data) => setPeople((prev) => [...prev, ...data]))
+      .then((data) => {
+        if (data.length === 0) {
+          setQueryExhausted(true)
+          return
+        }
+        setPeople((prev) => [...prev, ...data])
+      })
       .catch((error) => console.error(error))
   }, [offset])
 
