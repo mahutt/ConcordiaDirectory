@@ -28,8 +28,15 @@ app.get(
     let params = []
 
     if (search) {
-      sqlQuery += ` WHERE name LIKE ? OR title LIKE ? OR department LIKE ?`
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`)
+      sqlQuery += ` WHERE name LIKE ? OR title LIKE ? OR department LIKE ? OR email LIKE ? OR phone LIKE ? OR location LIKE ?`
+      params.push(
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`
+      )
     }
 
     sqlQuery += ' LIMIT ? OFFSET ?'
