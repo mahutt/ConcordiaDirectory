@@ -35,7 +35,7 @@ function App() {
       .catch((error) => console.error(error))
   }, [searchQuery])
 
-  useEffect(() => {
+  const fetchMore = () => {
     if (offset < 1 || queryExhausted) return
     fetch(
       `${
@@ -48,10 +48,11 @@ function App() {
           setQueryExhausted(true)
           return
         }
+        setOffset((prev) => prev + 10)
         setPeople((prev) => [...prev, ...data])
       })
       .catch((error) => console.error(error))
-  }, [offset])
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +63,7 @@ function App() {
         const isNearBottom = rect.bottom - windowHeight < 100
         if (isNearBottom) {
           window.removeEventListener('scroll', handleScroll)
-          setOffset((prev) => prev + 10)
+          fetchMore()
         }
       }
     }
