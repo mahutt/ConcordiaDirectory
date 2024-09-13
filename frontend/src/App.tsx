@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import Toast, { ToastRef } from './components/Toast'
 import Features from './components/Features'
 import { Card, Person } from './components/Card'
 import useQueryParam from './hooks/useQueryParam'
@@ -17,6 +18,7 @@ function App() {
   const focusInput = () => searchInputRef.current?.focus()
 
   const mainRef = useRef<HTMLDivElement>(null)
+  const toastRef = useRef<ToastRef>(null)
 
   useEffect(() => {
     if (searchQuery.length === 0) {
@@ -90,6 +92,7 @@ function App() {
 
   return (
     <div className="text-white font-sans flex flex-col">
+      <Toast ref={toastRef} />
       <header
         className="bg-gradient-to-b from-orange-600 to-red-700"
         style={{
@@ -108,7 +111,7 @@ function App() {
       <main className="flex-1 bg-red-700" ref={mainRef}>
         <div className="container mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="sticky top-0 z-50 py-5 relative">
+            <div className="sticky top-0 z-40 py-5 relative">
               <input
                 ref={searchInputRef}
                 type="text"
@@ -122,7 +125,7 @@ function App() {
               <MagnifyingGlassIcon className="absolute size-6 right-4 top-1/2 transform -translate-y-1/2" />
             </div>
             {people.map((person) => (
-              <Card key={person.id} {...person} />
+              <Card key={person.id} person={person} toastRef={toastRef} />
             ))}
             {people.length == 0 && (
               <div
