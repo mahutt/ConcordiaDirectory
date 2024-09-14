@@ -96,7 +96,7 @@ function App() {
       <header
         className="bg-gradient-to-b from-orange-600 to-red-700"
         style={{
-          height: focused ? '0' : headerHeight,
+          height: searchQuery !== '' ? '0' : headerHeight,
           overflow: 'hidden',
           transition: 'height 0.3s ease-in-out',
         }}
@@ -127,7 +127,7 @@ function App() {
             {people.map((person) => (
               <Card key={person.id} person={person} toastRef={toastRef} />
             ))}
-            {people.length == 0 && (
+            {people.length == 0 && searchQuery === '' && (
               <div
                 className={`transition-all duration-300 ease-in-out ${
                   focused
