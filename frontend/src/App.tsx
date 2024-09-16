@@ -111,7 +111,7 @@ function App() {
       <main className="flex-1 bg-red-700" ref={mainRef}>
         <div className="container mx-auto">
           <div className="max-w-3xl mx-auto">
-            <div className="sticky top-0 z-40 py-5 relative">
+            <div className="sticky top-0 z-40 py-5 relative px-2">
               <input
                 ref={searchInputRef}
                 type="text"
@@ -122,7 +122,7 @@ function App() {
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
               />
-              <MagnifyingGlassIcon className="absolute size-6 right-4 top-1/2 transform -translate-y-1/2" />
+              <MagnifyingGlassIcon className="absolute size-6 right-6 top-1/2 transform -translate-y-1/2" />
             </div>
             {people.map((person) => (
               <Card key={person.id} person={person} toastRef={toastRef} />
