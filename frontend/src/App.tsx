@@ -63,7 +63,7 @@ function App() {
         const windowHeight =
           window.innerHeight || document.documentElement.clientHeight
         const isNearBottom = rect.bottom - windowHeight < 100
-        if (isNearBottom) {
+        if (isNearBottom && searchQuery !== '') {
           window.removeEventListener('scroll', handleScroll)
           fetchMore()
         }
